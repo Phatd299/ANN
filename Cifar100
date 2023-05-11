@@ -24,7 +24,6 @@ model.add(Conv2D(64, kernel_size=(3,3), activation='linear', padding='same'))
 model.add(MaxPooling2D((2,2),padding='same'))
 model.add(Conv2D(128, kernel_size=(3,3), activation='linear', padding='same'))
 model.add(MaxPooling2D((2,2),padding='same'))
-#model.add(Dropout(:0.25))
 # 3 lần tích chập
 
 model.add(Flatten())

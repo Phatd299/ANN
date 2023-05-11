@@ -1,0 +1,41 @@
+from keras.datasets import cifar100
+(x_train,y_train),(x_test,y_test) = cifar100.load_data()
+x1 = x_train
+x2 = x_test
+y1 = y_train
+y2 = y_test
+
+x_train.shape
+
+x_train = x_train.astype('float32') / 255 
+x_test = x_test.astype('float32') / 255
+
+from keras.utils import to_categorical
+y_train = to_categorical(y_train,100)
+y_test = to_categorical(y_test,100)
+
+from keras.models import Sequential
+from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten 
+
+model = Sequential()
+model.add(Conv2D(32, kernel_size=(3,3), activation='linear', input_shape=(32,32,3), padding='same'))
+model.add(MaxPooling2D((2,2),padding='same'))
+model.add(Conv2D(64, kernel_size=(3,3), activation='linear', padding='same'))
+model.add(MaxPooling2D((2,2),padding='same'))
+model.add(Conv2D(128, kernel_size=(3,3), activation='linear', padding='same'))
+model.add(MaxPooling2D((2,2),padding='same'))
+#model.add(Dropout(:0.25))
+# 3 lần tích chập
+
+model.add(Flatten())
+#Trải bằng lệnh flatten
+
+model.add(Dense(128, activation='relu'))
+model.add(Dense(100, activation='softmax'))
+
+model.summary()
+
+from keras.losses import categorical_crossentropy
+model.compile(loss=categorical_crossentropy, optimizer='adam', metrics=['accuracy'])
+
+model.fit(x_train, y_train, epochs=20, batch_size=128, verbose=1)
